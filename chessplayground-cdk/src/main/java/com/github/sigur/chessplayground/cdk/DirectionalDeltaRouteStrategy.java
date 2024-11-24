@@ -3,7 +3,7 @@ package com.github.sigur.chessplayground.cdk;
 import java.util.Set;
 import java.util.TreeSet;
 
-/**Ø
+/**
  * This class is {@code LimitAwareRouteStrategy} which connects coordinates through an oriented
  * delta distance.
  *
