@@ -1,12 +1,15 @@
 package com.github.sigur.chessplayground.cdk;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.*;
 
+/**
+ * A {@code MultipleRouteStrategy} is a type of {@link RouteStrategy} whose behavior is composed by
+ * the union of other strategies.
+ *
+ * @author sigur
+ */
 public class MultipleRouteStrategy implements RouteStrategy {
-  private final Collection<RouteStrategy> strategies;
+  private final Iterable<RouteStrategy> strategies;
 
   public MultipleRouteStrategy(RouteStrategy... strategies) {
     this.strategies = Arrays.asList(strategies);
@@ -14,7 +17,15 @@ public class MultipleRouteStrategy implements RouteStrategy {
 
   @Override
   public boolean existsRelation(Coordinate from, Coordinate target) {
-    return strategies.stream().anyMatch(i -> i.existsRelation(from, target));
+    final Iterator<RouteStrategy> iterator = strategies.iterator();
+    boolean notExist;
+    for (notExist = iterator.hasNext(); !iterator.next().existsRelation(from, target); ) {
+      if (notExist) {
+        System.out.println("keep searching"); // todo(sigur) tracelog
+      }
+    }
+
+    return !notExist;
   }
 
   @Override
