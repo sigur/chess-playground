@@ -21,4 +21,66 @@ class MultipleRouteStrategyTest {
         .contains(
             new Coordinate(2, 3), new Coordinate(2, 4), new Coordinate(3, 3), new Coordinate(1, 3));
   }
+
+  @Test
+  void existRelation() {
+    final MultipleRouteStrategy actual =
+        new MultipleRouteStrategy(new StraightRouteStrategy(7, 7), new DiagonalRouteStrategy(7, 7));
+    assertThat(actual.existsRelation(new Coordinate(3, 3), new Coordinate(7, 7))).isTrue();
+
+    assertThat(actual.existsRelation(new Coordinate(1, 7), new Coordinate(1, 0))).isTrue();
+  }
+
+  @Test
+  void notExistRelation() {
+    final MultipleRouteStrategy actual =
+        new MultipleRouteStrategy(new StraightRouteStrategy(7, 7), new DiagonalRouteStrategy(7, 7));
+    assertThat(actual.existsRelation(new Coordinate(3, 3), new Coordinate(2, 7))).isFalse();
+    assertThat(actual.existsRelation(new Coordinate(1, 7), new Coordinate(-1, 7))).isFalse();
+    assertThat(actual.existsRelation(new Coordinate(7, 7), new Coordinate(0, 3))).isFalse();
+  }
+
+  @Test
+  void emptyCalculateAvailable() {
+    final MultipleRouteStrategy actual =
+        new MultipleRouteStrategy(new DummyRoute(), new DummyRoute());
+
+    assertThat(actual.calculateAvailable(new Coordinate(4, 4))).isEmpty();
+  }
+
+  @Test
+  void calculateAvailableLikeQueen() {
+    final MultipleRouteStrategy actual =
+        new MultipleRouteStrategy(new StraightRouteStrategy(7, 7), new DiagonalRouteStrategy(7, 7));
+
+    assertThat(actual.calculateAvailable(new Coordinate(4, 4)))
+        .containsExactly(
+            new Coordinate(0, 0),
+            new Coordinate(0, 4),
+            new Coordinate(1, 1),
+            new Coordinate(1, 4),
+            new Coordinate(1, 7),
+            new Coordinate(2, 2),
+            new Coordinate(2, 4),
+            new Coordinate(2, 6),
+            new Coordinate(3, 3),
+            new Coordinate(3, 4),
+            new Coordinate(3, 5),
+            new Coordinate(4, 0),
+            new Coordinate(4, 1),
+            new Coordinate(4, 2),
+            new Coordinate(4, 3),
+            new Coordinate(4, 5),
+            new Coordinate(4, 6),
+            new Coordinate(4, 7),
+            new Coordinate(5, 3),
+            new Coordinate(5, 4),
+            new Coordinate(5, 5),
+            new Coordinate(6, 2),
+            new Coordinate(6, 4),
+            new Coordinate(6, 6),
+            new Coordinate(7, 1),
+            new Coordinate(7, 4),
+            new Coordinate(7, 7));
+  }
 }
