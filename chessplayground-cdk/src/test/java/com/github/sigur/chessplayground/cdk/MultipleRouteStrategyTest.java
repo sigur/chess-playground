@@ -41,6 +41,14 @@ class MultipleRouteStrategyTest {
   }
 
   @Test
+  void emptyCalculateAvailable() {
+    final MultipleRouteStrategy actual =
+        new MultipleRouteStrategy(new DummyRoute(), new DummyRoute());
+
+    assertThat(actual.calculateAvailable(new Coordinate(4, 4))).isEmpty();
+  }
+
+  @Test
   void calculateAvailableLikeQueen() {
     final MultipleRouteStrategy actual =
         new MultipleRouteStrategy(new StraightRouteStrategy(7, 7), new DiagonalRouteStrategy(7, 7));
