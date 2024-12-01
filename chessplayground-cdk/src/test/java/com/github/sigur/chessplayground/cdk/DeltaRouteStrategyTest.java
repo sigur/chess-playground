@@ -8,7 +8,13 @@ import org.junit.jupiter.api.Test;
 class DeltaRouteStrategyTest {
 
   @Test
-  void existsRelation() {}
+  void existsRelation() {
+    final DeltaRouteStrategy strategy = new DeltaRouteStrategy(7, 7, new Coordinate(1, 2));
+
+    assertThat(strategy.existsRelation(new Coordinate(0, 0), new Coordinate(1, 2))).isTrue();
+
+    assertThat(strategy.existsRelation(new Coordinate(7, 2), new Coordinate(4, 5))).isFalse();
+  }
 
   @Test
   void calculateAvailable() {
@@ -18,7 +24,14 @@ class DeltaRouteStrategyTest {
         .containsExactly(new Coordinate(0, 3));
 
     assertThat(strategy.calculateAvailable(new Coordinate(6, 7)))
-            .containsExactly(new Coordinate(6, 4));
+        .containsExactly(new Coordinate(6, 4));
+  }
+
+  @Test
+  void calculateAvailableEmpty() {
+    final DeltaRouteStrategy strategy = new DeltaRouteStrategy(7, 7, new Coordinate(10, 1));
+
+    assertThat(strategy.calculateAvailable(new Coordinate(6, 7))).isEmpty();
   }
 
   @Test
