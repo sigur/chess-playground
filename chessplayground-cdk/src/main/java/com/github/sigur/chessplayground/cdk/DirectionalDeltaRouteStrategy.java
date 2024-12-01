@@ -39,11 +39,13 @@ public class DirectionalDeltaRouteStrategy extends LimitAwareRouteStrategy {
   }
 
   /**
-   * Check if {@code target} point is the distance specified by the {@code delta) value
+   * Checks whether {@code target }point is as far away, in the configured {@code direction}, as
+   * indicated in the {@code delta} value.
+   *
    * @param from, staring coordinate point
    * @param target, coordinate to check if it's connected
-   * @return {@code true} when {@code target} matches the {@code delta} from {@code from},
-   *  {@code false} when does not match or it's outside
+   * @return {@code true} when {@code target} matches the {@code delta} from {@code from}, {@code
+   *     false} when does not match, or it's outside
    */
   @Override
   public boolean existsRelation(Coordinate from, Coordinate target) {

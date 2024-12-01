@@ -36,7 +36,7 @@ public class DiagonalRouteStrategy extends LimitAwareRouteStrategy {
   public boolean existsRelation(Coordinate from, Coordinate target) {
     final int x = Math.abs(from.x() - target.x());
     final int y = Math.abs(from.y() - target.y());
-    return x == y && !from.equals(target) && verifyCoordinateIsInside(target);
+    return x == y && verifyCoordinateIsInside(target) && !from.equals(target);
   }
 
   /**
@@ -62,6 +62,15 @@ public class DiagonalRouteStrategy extends LimitAwareRouteStrategy {
     return answer;
   }
 
+  /**
+   * Insert the coordinate {@code c(x,y)} into {@code target} set if {@code existsRelation(from, c)}
+   * is {@code true}
+   *
+   * @param from, origin coordinate to check
+   * @param x, value for the coordinate to check
+   * @param y, value fo the coordinate to check
+   * @param target, set if coordinate is related with {@code from}
+   */
   private void addCoordinateIfRelated(Coordinate from, int x, int y, Set<Coordinate> target) {
     final Coordinate coordinate = from.add(x, y);
     if (existsRelation(from, coordinate)) {
