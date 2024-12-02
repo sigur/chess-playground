@@ -7,9 +7,13 @@ public class RouteStrategyDecorator implements RouteStrategy {
   private final Optional<RouteStrategy> wrapped;
   private final RouteStrategy delegate;
 
-  public RouteStrategyDecorator(RouteStrategy wrapped, RouteStrategy delegate) {
+  private RouteStrategyDecorator(RouteStrategy wrapped, RouteStrategy delegate) {
     this.wrapped = Optional.ofNullable(wrapped);
     this.delegate = delegate;
+  }
+
+  public static RouteStrategyDecorator decorate(RouteStrategy current, RouteStrategy decorator) {
+    return new RouteStrategyDecorator(decorator, current);
   }
 
   @Override
