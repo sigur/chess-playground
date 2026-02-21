@@ -23,12 +23,17 @@ public class StandardChessPieceFactory implements PieceFactory {
             new DirectionalDeltaRouteStrategy(size.x(), size.y(), ONE_STEP, direction),
             new DirectionalDeltaRouteStrategy(size.x(), size.y(), TWO_STEPS, direction));
     return Piece.builder()
-        .movement(new CapturelessMovement(pawnMovements))
+        .movement(new Movement(pawnMovements))
         //.attack(new PawnRouteStrategy(ZERO, size, new Coordinate(1, 1), direction))
         .type(PAWN_VALUE)
         .position(position)
         .color(color)
         .build();
+  }
+
+  @Override
+  public Piece createKing(Coordinate position, Direction direction) {
+    return null;
   }
 
   public int getWidth() {

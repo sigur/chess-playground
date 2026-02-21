@@ -1,6 +1,7 @@
 package com.github.sigur.chessplayground.cdk;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -8,13 +9,13 @@ public class Piece {
   private final Set<Coordinate> stuck;
   private final PieceName value;
   private final Color color;
-  private Movement movement;
+  private RouteAction movement;
   private Coordinate position;
   private int movesCounter;
   private int capturesCounter;
   private boolean alive;
 
-  private Piece(Movement walk, PieceName value, Coordinate position, Color color) {
+  private Piece(RouteAction walk, PieceName value, Coordinate position, Color color) {
     this.movement = walk;
     this.value = value;
     this.position = position;
@@ -79,8 +80,8 @@ public class Piece {
     return this.stuck.removeAll(from);
   }
 
-  public MovementOutcome move(Coordinate target) {
-    final MovementOutcome answer = checkMoveTo(target);
+  public RouteActionOutcome move(Coordinate target) {
+    final RouteActionOutcome answer = checkMoveTo(target);
     if (answer.isValid()) {
       answer.getPosition().ifPresent(this::updatePosition);
     }
@@ -88,9 +89,9 @@ public class Piece {
     return answer;
   }
 
-  public MovementOutcome checkMoveTo(Coordinate target) {
-    MovementOutcome answer = MovementOutcome.invalid();
-    final MovementOutcome action = movement.execute(position, target);
+  public RouteActionOutcome checkMoveTo(Coordinate target) {
+    RouteActionOutcome answer = RouteActionOutcome.invalid();
+    final RouteActionOutcome action = movement.execute(position, target);
     if (action.isValid()) {
       final boolean captureResult =
           action.getCaptures().stream()
@@ -126,7 +127,7 @@ public class Piece {
   }
 
   public Set<Coordinate> retrieveAttackingCoordinates() {
-    return movement.calculatePossibleCaptures(position);
+    return Collections.emptySet();
   }
 
   public int getMovesCounter() {
@@ -141,19 +142,19 @@ public class Piece {
     return this.color == color;
   }
 
-  public void changeMovement(Movement movement) {
+  public void changeMovement(RouteAction movement) {
     this.movement = movement;
   }
 
   public static class PieceBuilder {
     private PieceName value;
     private Color color;
-    private Movement movement;
+    private RouteAction movement;
     private Coordinate position;
 
     private PieceBuilder() {}
 
-    public PieceBuilder movement(Movement walk) {
+    public PieceBuilder movement(RouteAction walk) {
       this.movement = walk;
       return this;
     }

@@ -5,12 +5,12 @@ import java.util.Collections;
 import java.util.Optional;
 import java.util.TreeSet;
 
-public class MovementOutcome {
+public class RouteActionOutcome {
   private final boolean valid;
   private final Coordinate position;
   private final Collection<Coordinate> captures;
-
-  private MovementOutcome(boolean valid, Coordinate position, Collection<Coordinate> captures) {
+  
+  private RouteActionOutcome(boolean valid, Coordinate position, Collection<Coordinate> captures) {
     this.valid = valid;
     this.position = position;
     this.captures = captures;
@@ -20,7 +20,7 @@ public class MovementOutcome {
     return new MovementOutcomeBuilder();
   }
 
-  public static MovementOutcome invalid() {
+  public static RouteActionOutcome invalid() {
     return new MovementOutcomeBuilder().executed(false).build();
   }
 
@@ -66,8 +66,8 @@ public class MovementOutcome {
       return this;
     }
 
-    public MovementOutcome build() {
-      return new MovementOutcome(executed, position, captures);
+    public RouteActionOutcome build() {
+      return new RouteActionOutcome(executed, position, captures);
     }
   }
 }

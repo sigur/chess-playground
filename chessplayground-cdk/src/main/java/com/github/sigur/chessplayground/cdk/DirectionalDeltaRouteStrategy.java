@@ -50,7 +50,7 @@ public class DirectionalDeltaRouteStrategy extends LimitAwareRouteStrategy {
     int targetX = Math.abs(target.x() - from.x());
     int targetY = direction.apply(target.y() - from.y());
     final Coordinate destination = new Coordinate(targetX, targetY);
-    return !from.equals(target) && verifyCoordinateIsInside(target) && delta.equals(destination);
+    return delta.equals(destination) && super.existsRelation(from, target);
   }
 
   /**
@@ -87,9 +87,8 @@ public class DirectionalDeltaRouteStrategy extends LimitAwareRouteStrategy {
    * @return the minimum value between the {@code point} and its upper limit
    */
   private Coordinate calculatePossibleUpperLimit(Coordinate point) {
-    final int x = Math.min(topLimit.x(), point.x() + delta.x());
-    final int y = Math.min(topLimit.y(), point.y() + direction.apply(delta.y()));
-    return new Coordinate(x, y);
+    final var target = new Coordinate(point.x() + delta.x(), point.y() + direction.apply(delta.y()));
+    return border.top().atMinimum(target);
   }
 
   /**
@@ -97,9 +96,8 @@ public class DirectionalDeltaRouteStrategy extends LimitAwareRouteStrategy {
    * @return the maximum value between the {@code point} and its bottom limit
    */
   private Coordinate calculatePossibleLowerLimit(Coordinate point) {
-    final int x = Math.max(bottomLimit.x(), point.x() - delta.x());
-    final int y = Math.max(bottomLimit.y(), point.y() + direction.apply(delta.y()));
-    return new Coordinate(x, y);
+    final var target = new Coordinate(point.x() - delta.x(), point.y() + direction.apply(delta.y()));
+    return border.bottom().atMaximum(target);
   }
 
   /**

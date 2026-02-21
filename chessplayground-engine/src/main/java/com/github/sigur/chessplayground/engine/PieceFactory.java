@@ -6,4 +6,6 @@ import com.github.sigur.chessplayground.cdk.Piece;
 
 public interface PieceFactory {
     Piece createPawn(Coordinate position, Direction direction);
+    Piece createKing(Coordinate position, Direction direction);
 }
+
