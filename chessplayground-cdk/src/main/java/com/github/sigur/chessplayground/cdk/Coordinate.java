@@ -22,16 +22,24 @@ public record Coordinate(int x, int y) implements Comparable<Coordinate> {
     return new Coordinate(Math.abs(x), Math.abs(y));
   }
 
+  public Coordinate atMaximum(Coordinate point) {
+    return new Coordinate(Math.max(x, point.x()), Math.max(y, point.y()));
+  }
+
+  public Coordinate atMinimum(Coordinate point) {
+    return new Coordinate(Math.min(x, point.x()), Math.min(y, point.y()));
+  }
+
   @Override
   public int compareTo(Coordinate o) {
     return x == o.x ? Integer.compare(y, o.y) : Integer.compare(x, o.x);
   }
 
   public boolean isLowerOrEqualThan(Coordinate o) {
-    return x <= o.x && y <= o.y;
+    return compareTo(o) < 1;
   }
 
   public boolean isGreaterOrEqualThan(Coordinate o) {
-    return x >= o.x && y >= o.y;
+    return compareTo(o) > -1;
   }
 }

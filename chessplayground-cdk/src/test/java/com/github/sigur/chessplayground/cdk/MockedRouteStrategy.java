@@ -3,7 +3,7 @@ package com.github.sigur.chessplayground.cdk;
 import java.util.Collections;
 import java.util.Set;
 
-public class DummyRoute implements RouteStrategy {
+public class MockedRouteStrategy implements RouteStrategy {
   private Set<Coordinate> coordinates = Collections.emptySet();
   private boolean control;
 

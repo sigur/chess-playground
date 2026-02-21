@@ -21,10 +21,8 @@ public class DeltaRouteStrategy extends LimitAwareRouteStrategy {
 
   @Override
   public boolean existsRelation(Coordinate from, Coordinate target) {
-    int targetX = Math.abs(target.x() - from.x());
-    int targetY = Math.abs(target.y() - from.y());
-    final Coordinate destination = new Coordinate(targetX, targetY);
-    return !from.equals(target) && verifyCoordinateIsInside(target) && delta.equals(destination);
+    final var destination = new Coordinate(target.x() - from.x(), target.y() - from.y()).abs();
+    return delta.equals(destination) && super.existsRelation(from, target);
   }
 
   @Override

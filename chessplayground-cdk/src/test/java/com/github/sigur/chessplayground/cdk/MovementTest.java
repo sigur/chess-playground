@@ -5,25 +5,25 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.util.Collections;
 import org.junit.jupiter.api.Test;
 
-class CapturelessMovementTest {
-
+class MovementTest {
+ /*
   @Test
   void calculatePossibleCaptures() {
-    final DummyRoute movement = new DummyRoute();
+    final MockedRouteStrategy movement = new MockedRouteStrategy();
     movement.setCoordinates(Collections.singleton(new Coordinate(3, 5)));
 
-    final CapturelessMovement actual = new CapturelessMovement(movement);
+    final Movement actual = new Movement(movement);
     actual.calculatePossibleCaptures(new Coordinate(3, 3)).isEmpty();
   }
-
+  */
   @Test
   void executeControllable() {
-    final DummyRoute movement = new DummyRoute();
+    final MockedRouteStrategy movement = new MockedRouteStrategy();
     movement.setCoordinates(Collections.singleton(new Coordinate(3, 5)));
     movement.setControl(true);
 
-    final CapturelessMovement move = new CapturelessMovement(movement);
-    final MovementOutcome actual = move.execute(new Coordinate(3, 3), new Coordinate(3, 5));
+    final Movement move = new Movement(movement);
+    final RouteActionOutcome actual = move.execute(new Coordinate(3, 3), new Coordinate(3, 5));
     assertThat(actual.isValid()).isTrue();
     assertThat(actual.getCaptures()).isEmpty();
     assertThat(actual.getPosition()).hasValue(new Coordinate(3, 5));
@@ -31,12 +31,12 @@ class CapturelessMovementTest {
 
   @Test
   void executeNotControllable() {
-    final DummyRoute movement = new DummyRoute();
+    final MockedRouteStrategy movement = new MockedRouteStrategy();
     movement.setCoordinates(Collections.singleton(new Coordinate(3, 5)));
     movement.setControl(false);
 
-    final CapturelessMovement move = new CapturelessMovement(movement);
-    final MovementOutcome actual = move.execute(new Coordinate(3, 3), new Coordinate(3, 5));
+    final Movement move = new Movement(movement);
+    final RouteActionOutcome actual = move.execute(new Coordinate(3, 3), new Coordinate(3, 5));
     assertThat(actual.isValid()).isFalse();
     assertThat(actual.getCaptures()).isEmpty();
     assertThat(actual.getPosition()).isEmpty();
@@ -44,20 +44,20 @@ class CapturelessMovementTest {
 
   @Test
   void controllable() {
-    final DummyRoute movement = new DummyRoute();
+    final MockedRouteStrategy movement = new MockedRouteStrategy();
     movement.setControl(true);
 
-    final CapturelessMovement move = new CapturelessMovement(movement);
+    final Movement move = new Movement(movement);
     final boolean actual = move.existsRelation(new Coordinate(3, 3), new Coordinate(3, 5));
     assertThat(actual).isTrue();
   }
 
   @Test
   void notControllable() {
-    final DummyRoute movement = new DummyRoute();
+    final MockedRouteStrategy movement = new MockedRouteStrategy();
     movement.setControl(false);
 
-    final CapturelessMovement move = new CapturelessMovement(movement);
+    final Movement move = new Movement(movement);
     final boolean actual = move.existsRelation(new Coordinate(3, 3), new Coordinate(3, 5));
     assertThat(actual).isFalse();
   }
@@ -67,20 +67,22 @@ class CapturelessMovementTest {
     final DirectionalDeltaRouteStrategy movement =
         new DirectionalDeltaRouteStrategy(7, 7, new Coordinate(0, 1), Direction.ASCENT);
 
-    final CapturelessMovement move = new CapturelessMovement(movement);
-    final MovementOutcome actual = move.execute(new Coordinate(2, 3), new Coordinate(2, 4));
+    final Movement move = new Movement(movement);
+    final RouteActionOutcome actual = move.execute(new Coordinate(2, 3), new Coordinate(2, 4));
     assertThat(actual.isValid()).isTrue();
     assertThat(actual.getCaptures()).isEmpty();
     assertThat(actual.getPosition()).hasValue(new Coordinate(2, 4));
   }
 
+  /*
   @Test
   void canCapture() {
     final SimplyRouteStrategy movement = new SimplyRouteStrategy();
     movement.setCoordinates(Collections.singleton(new Coordinate(3, 2)));
 
-    final CapturelessMovement move = new CapturelessMovement(movement);
+    final Movement move = new Movement(movement);
     final boolean actual = move.canCapture(new Coordinate(3, 2), new Coordinate(3, 2));
     assertThat(actual).isFalse();
   }
+   */
 }

@@ -64,7 +64,7 @@ public class StraightRouteStrategy extends LimitAwareRouteStrategy {
 
     final int limit = Math.max(getWidth(), getHeight());
 
-    for (int index = bottomLimit.x(); index <= limit; index++) {
+    for (int index = border.bottom().x(); index <= limit; index++) {
       addCoordinateIfRelated(from, index, 0, answer);
       addCoordinateIfRelated(from, -index, 0, answer);
       addCoordinateIfRelated(from, 0, index, answer);

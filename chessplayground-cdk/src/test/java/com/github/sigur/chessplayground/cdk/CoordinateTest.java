@@ -36,6 +36,24 @@ class CoordinateTest {
   }
 
   @Test
+  void atMaximum() {
+    final Coordinate start = new Coordinate(-4, 30);
+
+    assertThat(start.atMaximum(new Coordinate(4, 22))).isEqualTo(new Coordinate(4, 30));
+    assertThat(start.atMaximum(new Coordinate(-5, 31))).isEqualTo(new Coordinate(-4, 31));
+    assertThat(start.atMaximum(new Coordinate(4, 44))).isEqualTo(new Coordinate(4, 44));
+  }
+
+  @Test
+  void atMinimum() {
+    final Coordinate start = new Coordinate(-4, 30);
+
+    assertThat(start.atMinimum(new Coordinate(4, 22))).isEqualTo(new Coordinate(-4, 22));
+    assertThat(start.atMinimum(new Coordinate(-12, 35))).isEqualTo(new Coordinate(-12, 30));
+    assertThat(start.atMinimum(new Coordinate(-20, 10))).isEqualTo(new Coordinate(-20, 10));
+  }
+
+  @Test
   void verifyEqual() {
     final Coordinate actual = new Coordinate(1, 2);
     final Coordinate expected = new Coordinate(1, 2);

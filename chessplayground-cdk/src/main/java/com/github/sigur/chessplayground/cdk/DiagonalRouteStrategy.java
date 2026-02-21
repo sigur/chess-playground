@@ -34,9 +34,8 @@ public class DiagonalRouteStrategy extends LimitAwareRouteStrategy {
    */
   @Override
   public boolean existsRelation(Coordinate from, Coordinate target) {
-    final int x = Math.abs(from.x() - target.x());
-    final int y = Math.abs(from.y() - target.y());
-    return x == y && !from.equals(target) && verifyCoordinateIsInside(target);
+    final var abs = new Coordinate(from.x() - target.x(), from.y() - target.y()).abs();
+    return abs.x() == abs.y() && super.existsRelation(from, target);
   }
 
   /**
@@ -52,7 +51,7 @@ public class DiagonalRouteStrategy extends LimitAwareRouteStrategy {
 
     final int limit = Math.max(getWidth(), getHeight());
 
-    for (int index = bottomLimit.x(); index <= limit; index++) {
+    for (int index = border.bottom().x(); index <= limit; index++) {
       addCoordinateIfRelated(from, index, index, answer);
       addCoordinateIfRelated(from, -index, index, answer);
       addCoordinateIfRelated(from, index, -index, answer);

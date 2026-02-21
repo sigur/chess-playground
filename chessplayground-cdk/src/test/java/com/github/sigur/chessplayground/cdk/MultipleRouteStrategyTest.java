@@ -43,7 +43,7 @@ class MultipleRouteStrategyTest {
   @Test
   void emptyCalculateAvailable() {
     final MultipleRouteStrategy actual =
-        new MultipleRouteStrategy(new DummyRoute(), new DummyRoute());
+        new MultipleRouteStrategy(new MockedRouteStrategy(), new MockedRouteStrategy());
 
     assertThat(actual.calculateAvailable(new Coordinate(4, 4))).isEmpty();
   }

@@ -8,8 +8,7 @@ package com.github.sigur.chessplayground.cdk;
  */
 abstract class LimitAwareRouteStrategy implements RouteStrategy {
 
-  protected final Coordinate bottomLimit;
-  protected final Coordinate topLimit;
+  protected final BoundingBox border;
 
   /**
    * Define the borders of the {@code LimitAwareRouteStrategy}. The passed values represent the
@@ -19,8 +18,12 @@ abstract class LimitAwareRouteStrategy implements RouteStrategy {
    * @param height, maximum value for {@code Coordinate.y()}
    */
   LimitAwareRouteStrategy(int width, int height) {
-    this.bottomLimit = new Coordinate(0, 0);
-    this.topLimit = new Coordinate(width, height);
+    this.border = new BoundingBox(new Coordinate(0, 0), new Coordinate(width, height));
+  }
+
+  @Override
+  public boolean existsRelation(Coordinate from, Coordinate target) {
+    return !from.equals(target) && verifyCoordinateIsInside(target);
   }
 
   /**
@@ -31,14 +34,14 @@ abstract class LimitAwareRouteStrategy implements RouteStrategy {
    * @return {@code true} if coordinate is inside, {@code false} otherwise
    */
   boolean verifyCoordinateIsInside(Coordinate coordinate) {
-    return bottomLimit.isLowerOrEqualThan(coordinate) && topLimit.isGreaterOrEqualThan(coordinate);
+    return border.encloses(coordinate);
   }
 
   protected int getWidth() {
-    return topLimit.x();
+    return border.top().x();
   }
 
   protected int getHeight() {
-    return topLimit.y();
+    return border.top().y();
   }
 }
