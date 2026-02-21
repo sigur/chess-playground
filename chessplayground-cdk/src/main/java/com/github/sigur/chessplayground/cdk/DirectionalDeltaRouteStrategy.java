@@ -47,10 +47,14 @@ public class DirectionalDeltaRouteStrategy extends LimitAwareRouteStrategy {
    */
   @Override
   public boolean existsRelation(Coordinate from, Coordinate target) {
-    int targetX = Math.abs(target.x() - from.x());
-    int targetY = direction.apply(target.y() - from.y());
-    final Coordinate destination = new Coordinate(targetX, targetY);
-    return delta.equals(destination) && super.existsRelation(from, target);
+    final boolean isWithinBounds = super.existsRelation(from, target);
+
+    final int targetX = Math.abs(target.x() - from.x());
+    final int targetY = direction.apply(target.y() - from.y());
+
+    final boolean matchesDelta = (targetX == delta.x() && targetY == delta.y());
+
+    return isWithinBounds && matchesDelta;
   }
 
   /**
